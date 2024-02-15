@@ -1,0 +1,72 @@
+﻿@model DemoProject.Models.AddEmployee
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1></h1>
+
+<h4>Update Employee</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" action="Add">
+
+            @Html.HiddenFor(a => a.Id)
+            <div class="mb-3">
+                <label for="" class="form-label">Email address</label>
+                <input type="email" class="form-control" asp-for="Email">
+                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                <span asp-validation-for="Email" class="text-danger"></span>
+                @{
+                    var Msg = ViewBag.IsEmailExist;
+                    <label for="" class="text-danger">@Msg</label>
+                }
+
+            </div>
+            <div class="mb-3">
+                <label for="" class="form-label"> Employee Name</label>
+                <input type="text" class="form-control" asp-for="Name">
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <!--Gender in redio button-->
+            <label asp-for="Gender">Select Gender:</label>
+            <div class="form-check">
+                <input asp-for="Gender" class="form-check-input" type="radio" value="Male" /> Male
+            </div>
+            <div class="form-check">
+                <input asp-for="Gender" class="form-check-input" type="radio" value="Female" /> Female
+            </div>
+            <div class="form-check">
+                <input asp-for="Gender" class="form-check-input" type="radio" value="Other" /> Other
+            </div>
+            <span asp-validation-for="Gender" class="text-danger"></span>
+            <!--City in dropdown-->
+            <div class="mb-3">
+                <label for="" class="form-label"> Select Employee City </label>
+                @Html.DropDownListFor(model => model.City,new SelectList(Model.Cities.Select(a => a.CityName)) , "Select City", new { @class = "form-control" })
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="IsParmanent" class="form-check-label">
+                    Employee Is Parmanent ?
+                </label>
+                <div class="form-check">
+                    @Html.CheckBoxFor(a => a.IsParmanent)
+                </div>
+                <span asp-validation-for="IsParmanent" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+   </div>
+</div>
+
+<div>
+    <a asp-action="DisplayEmpList">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
